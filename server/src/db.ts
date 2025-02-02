@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import { model, Schema } from "mongoose";
 
 dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI as string;
 
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
     if (!MONGO_URI) {
       throw new Error("MONGO_URI is not defined in .env file");
@@ -19,4 +20,9 @@ const connectDB = async () => {
   }
 };
 
-export default connectDB;
+const UserSchema = new Schema({
+  username: { type: String, unique: true },
+  password: String,
+});
+
+export const UserModel = model("User", UserSchema);
